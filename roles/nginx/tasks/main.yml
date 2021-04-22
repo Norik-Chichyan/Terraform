@@ -1,0 +1,48 @@
+---
+# tasks file for nginx
+#
+    - name: 'Installing php nginx'
+      apt:
+        name:
+           - nginx
+           - php-fpm
+           - php-mysql
+           - python3-pip
+           - python3-pymysql
+        state: present
+        update_cache: yes
+      become: yes
+    - name: install pymysql
+      pip:
+        name: pymysql
+        state: present
+      become: yes
+    
+    - name: 'wordpress site config'
+      copy:
+        src: 'wordpress_site.conf'
+        dest: '/etc/nginx/sites-available/wordpress.conf'
+      become: yes
+
+    - name: remove nginx default site
+      become: yes
+      ansible.builtin.file:
+                         path: /etc/nginx/sites-enabled/default
+                         state: absent
+     
+    - name: Create wortpress site from template
+      become: yes 
+      template: 
+        src: 'wordpress_site.conf'
+        dest: '/etc/nginx/sites-available/wordpress.conf'
+
+
+    - name: Create a symbolic link
+      become: yes
+      ansible.builtin.file:
+                         src: /etc/nginx/sites-available/wordpress.conf
+                         dest: /etc/nginx/sites-enabled/wordpress.conf
+                         state: link
+      notify:
+        - Reload nginx
+

@@ -1,0 +1,29 @@
+---
+# tasks file for wordpress
+    - name: 'check wordpress exist or not'
+      stat: 'path="{{wordpress_files_path}}"'
+      register: wordpress_path_check
+
+    - name: download and unarchive wordpress
+      become: yes
+      unarchive:
+              src: '{{wordpress_downloading_site}}'
+              dest: /var/www/
+              remote_src: yes
+      when: 'not wordpress_path_check.stat.exists'
+    
+    - name: 'Setup wp-config.php'
+      template:
+              src: 'wp-config-template'
+              dest: '{{ wordpress_files_path }}/wp-config.php'
+      become: yes
+      notify: Reload nginx
+
+    - name: change wordpress folder ownership
+      file:
+              path: '{{wordpress_files_path}}'
+              owner: www-data
+              group: www-data
+      become: yes
+      notify: 
+        - Reload nginx

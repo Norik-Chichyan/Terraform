@@ -1,0 +1,6 @@
+---
+# vars file for nginx
+ nginx_listen_port: 80
+ nginx_root_path: /var/www/wordpress
+ nginx_server_ip_or_name: 127.0.0.1
+ nginx_unix_sock_file: /var/run/php/php7.4-fpm.sock
