@@ -1,7 +1,7 @@
 ---
-- hosts: 'webserver'
+- hosts: 'webservers'
   roles:
-#          - role: 'mysql'
+          - role: 'mysql'
           - role: 'nginx'
           - role: 'wordpress'
 

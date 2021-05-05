@@ -3,6 +3,6 @@
  wordpress_files_path: /var/www/wordpress
  wordpress_downloading_site: 'http://wordpress.org/latest.tar.gz'
  mysql_wp_db_name: 'wordpressdb'
- mysql_wp_db_user: 'admin'
- mysql_wp_db_user_pass: 'Aa123456+'
+ mysql_wp_db_user: 'wordpress_user'
+ mysql_wp_db_user_pass: 'my_password'
 
