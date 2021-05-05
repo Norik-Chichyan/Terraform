@@ -1,7 +1,7 @@
 resource "aws_security_group" "my-tf-ec2-sg" {
   name        = "allow http/https"
   description = "Allow http/https"
-  
+
   dynamic "ingress" {
     for_each = ["80", "443", "22", "3306"]
     content {
