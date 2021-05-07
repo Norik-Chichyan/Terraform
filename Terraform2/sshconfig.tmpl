@@ -1,0 +1,16 @@
+Host bastion
+    HostName ${bastion-ip}
+    User ubuntu
+    IdentityFile ~/.ssh/aws-key2.pem
+
+Host wordpress-1
+  HostName ${wp1-ip}
+  User ubuntu
+  IdentityFile ~/.ssh/aws-key2.pem
+  ProxyJump  bastion
+
+Host wordpress-2
+  HostName ${wp2-ip}
+  ProxyJump  bastion
+  User ubuntu  
+  IdentityFile ~/.ssh/aws-key2.pem

@@ -3,19 +3,19 @@ resource "aws_vpc" "my-vpc" {
 }
 
 resource "aws_subnet" "public" {
-  vpc_id     = aws_vpc.my-vpc.id
-  cidr_block = "10.10.10.0/24"
+  vpc_id                  = aws_vpc.my-vpc.id
+  cidr_block              = "10.10.10.0/24"
   map_public_ip_on_launch = true
-
+  availability_zone       = "us-east-1a"
   tags = {
     Name = "load_balancer"
   }
 }
 
 resource "aws_subnet" "db" {
-  vpc_id     = aws_vpc.my-vpc.id
-  cidr_block = "10.10.20.0/24"
-
+  vpc_id            = aws_vpc.my-vpc.id
+  cidr_block        = "10.10.20.0/24"
+  availability_zone = "us-east-1c"
   tags = {
     Name = "rds"
   }
@@ -48,6 +48,6 @@ resource "aws_route_table_association" "public" {
 }
 
 resource "aws_db_subnet_group" "rds" {
-  subnet_ids = [ aws_subnet.db.id, aws_subnet.public.id ]
-  
+  subnet_ids = [aws_subnet.db.id, aws_subnet.public.id]
+
 }
