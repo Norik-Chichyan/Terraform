@@ -1,25 +1,22 @@
 pipeline {
-    environment {
-        AWS_ACCESS_KEY_ID     = credentials('jenkins-aws-secret-key-id')
-        AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws-secret-access-key')
-    }
     agent any
     stages {
-      stage('env_vars') {
-         steps {
-            sh 'sudo export AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID"'
-            sh 'sudo export AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY"'
-         }
-      }
-      stage('Terraform init') {
-         steps {
-            sh 'terraform init'
-         }
-      }
-      stage('Terraform plan') {
-         steps {
-            sh 'terraform plan'
-         }
-      }
+        stage('Terraform init') {
+            environment {
+            AWS_ACCESS_KEYS = credentials('aws_cred')
+            }
+            steps {
+                sh 'terraform init'   
+            }        
+        }
+        stage('Terraform plan') {
+            environment {
+            AWS_ACCESS_KEYS = credentials('aws_cred')
+            }
+            steps {
+                sh 'terraform apply --auto-approve'
+                sh 'ls -la'   
+            }   
+        }
     }
 }
